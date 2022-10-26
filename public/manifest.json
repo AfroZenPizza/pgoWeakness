@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "PGo - Weakness",
+  "name": "Pokemon Go - Gym Weakness Finder",
   "icons": [
     {
       "src": "favicon.ico",
