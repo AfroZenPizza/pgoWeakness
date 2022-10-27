@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "d35ed5857a3653d5b366",
+    "revision": "f8aef09627ee2c052f70",
     "url": "/pgoWeakness/static/css/main.3d7a235b.chunk.css"
   },
   {
-    "revision": "d35ed5857a3653d5b366",
-    "url": "/pgoWeakness/static/js/main.677dafe8.chunk.js"
+    "revision": "f8aef09627ee2c052f70",
+    "url": "/pgoWeakness/static/js/main.96823e0d.chunk.js"
   },
   {
     "revision": "076ced8d23433160ec87",
@@ -96,7 +96,7 @@ self.__precacheManifest = [
     "url": "/pgoWeakness/static/media/water.e29fb8e3.svg"
   },
   {
-    "revision": "461c468ffd1fb2711dd45d97589ed70b",
+    "revision": "7e2a94f89f76419f52b8d2007f15566d",
     "url": "/pgoWeakness/index.html"
   }
 ];
