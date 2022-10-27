@@ -91,10 +91,10 @@ export default function PokeTypeList({ PokeType }) {
         title="1/2 Damage From"
         icons={getIcons(halfDamageFrom)}
       />
-      <DamageRelation title="Invincible to" icons={getIcons(noDamageFrom)} />
+      {/* <DamageRelation title="Invincible to" icons={getIcons(noDamageFrom)} /> */}
       <DamageRelation title="2X Damage To" icons={getIcons(doubleDamageTo)} />
       <DamageRelation title="1/2 Damage to" icons={getIcons(halfDamageTo)} />
-      <DamageRelation title="Doesn't Damage" icons={getIcons(noDamageTo)} />
+      {/* <DamageRelation title="Doesn't Damage" icons={getIcons(noDamageTo)} /> */}
     </div>
   );
 }

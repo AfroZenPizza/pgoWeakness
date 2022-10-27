@@ -12,11 +12,20 @@ import { Form } from 'react-bootstrap';
 
 
 function App() {
-  const LOCAL_STORAGE_KEY = "todoApp.todos"
-  const todoNameRef = useRef();
+  const LOCAL_STORAGE_KEY = "pgodex.local"
   const pokeRef = useRef();
-  const [todos, setTodos] = useState([]);
   const [pokemonList, setPokemonList] = useState([{ name: "rhyperior", id: uuidv4() }])
+
+  useEffect(() => {
+    const loadedList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (!loadedList) return;
+    setPokemonList(loadedList);
+  }, [])
+
+  useEffect(() => {
+    const storeableList = JSON.stringify(pokemonList);
+    localStorage.setItem(LOCAL_STORAGE_KEY, storeableList);
+  }, [pokemonList])
 
   function removePokemon(id) {
     const newPokemonList = pokemonList.filter(item => item.id != id)

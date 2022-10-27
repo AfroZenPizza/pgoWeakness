@@ -38,7 +38,6 @@ export default function PokeCard({ pokemon, removePokemon }) {
   return (
     <Card className={iconStyles[types[0]]}>
       <CloseButton
-        // variant="white"
         style={{ position: "absolute", top: "6px", right: "6px" }}
         onClick={handleRemove}
       />
@@ -51,11 +50,7 @@ export default function PokeCard({ pokemon, removePokemon }) {
         src={pokemonSprite}
       />
       <TypeIndicator typeList={types} />
-      <Card.Body
-      // style={{
-      //   backgroundColor: "rgba(0, 0, 0, 0.66)",
-      // }}
-      >
+      <Card.Body>
         <Card.Title ref={nameRef}>
           {pname[0].toUpperCase() + pname.slice(1)}
         </Card.Title>
