@@ -20,7 +20,7 @@ export default function PokeTypeList({ PokeType }) {
     return iType.map((x) => x.name);
   }
 
-  func
+  function getIcons(fromArr) {
     return fromArr.map((x) => {
       return (
         <div className={`${iconStyle[x]} ${iconStyle.icon}`}>
