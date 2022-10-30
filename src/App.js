@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import TodoList from "./TodoList";
 import PokeCard from "./PokeCard.jsx"
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -8,8 +7,8 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Stack from 'react-bootstrap/Stack'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form } from 'react-bootstrap';
-
+import { Card, Form } from 'react-bootstrap';
+import GymBox from './GymBox/GymBox.jsx'
 
 function App() {
   const LOCAL_STORAGE_KEY = "pgodex.local"
@@ -32,25 +31,67 @@ function App() {
     setPokemonList(newPokemonList);
   }
   function handleAddPoke(e) {
-    const name = pokeRef.current.value
+    const name = pokeRef.current.value.toLowerCase()
     if (name === '') return
+    pokeRef.current.value = null
+    if (name.includes(",")) {
+      let names = name.split(",")
+      let combine = []
+      for (let n in names) {
+        let strName = names[n].trim();
+        combine.push({ id: uuidv4(), name: strName })
+      }
+      setPokemonList(prevPokemonList => {
+        return [...prevPokemonList, ...combine]
+      })
+      return;
+    }
     setPokemonList(prevPokemonList => {
       return [...prevPokemonList, { id: uuidv4(), name: name }]
     })
-    pokeRef.current.value = null
+  }
+
+  function handleRemovePoke() {
+    const name = pokeRef.current.value;
+    if (name === '') {
+      setPokemonList([]);
+      return;
+    };
+    setPokemonList(prevList => {
+      return prevList.filter(item => item.name.toLowerCase() != name.toLowerCase())
+    })
+    pokeRef.current.value = null;
+  }
+
+  function handleAddKeyDown(e) {
+    if (e.keyCode === 13 && e.ctrlKey) {
+      handleRemovePoke();
+      return;
+    }
+    if (e.keyCode === 13) { // Enter/Return pressed
+      handleAddPoke(null)
+    }
   }
   return (
     <>
-      {/* <TodoList todos={todos} toggleTodo={toggleTodo} /> */}
-      {/* <input ref={todoNameRef} type="text" /> */}
-      {/* <button onClick={handleAddTodo}>Add Todo</button> */}
-      {/* <button onClick={clearTodos}>Clear Complete</button> */}
-      {/* <div>{todos.filter(todo => !todo.complete).length} left to do</div> */}
       <Container fluid>
-        <Stack direction="horizontal" gap={3}>
-          <Form.Control ref={pokeRef} className="me-auto" placeholder="Pikachu..." />
-          <Button onClick={handleAddPoke}>Add</Button>
-        </Stack>
+        <Row>
+          <Col md={4}>
+            <Stack direction="horizontal" gap={3}>
+              <Form.Control ref={pokeRef} onKeyDown={handleAddKeyDown} className="me-auto" placeholder="Pikachu..." />
+              <Button onClick={handleAddPoke}>Add</Button>
+            </Stack>
+          </Col>
+          <GymBox />
+          <Col md={4}>
+            <Card>
+              <Card.Title>New Features</Card.Title>
+              <Card.Text><strong><kbd>Ctrl</kbd>+<kbd>Enter</kbd></strong> will remove all pokemon with a given name<br />
+                Comma seperating pokemon <em>Pikachu, Mew</em> will add each pokemon in the list.
+              </Card.Text>
+            </Card>
+          </Col>
+        </Row>
       </Container>
       <Container fluid>
         <Row>

@@ -12,7 +12,15 @@ export default function PokeTypeList({ PokeType }) {
   const [noDamageTo, setNoDamageTo] = useState([]);
   const [noDamageFrom, setNoDamageFrom] = useState([]);
 
-  function getIcons(fromArr) {
+  function uniqueTypes(prev, arrIn) {
+    return [...new Set([...prev, ...arrIn])];
+  }
+
+  function mapITypeToName(iType) {
+    return iType.map((x) => x.name);
+  }
+
+  func
     return fromArr.map((x) => {
       return (
         <div className={`${iconStyle[x]} ${iconStyle.icon}`}>
@@ -22,12 +30,6 @@ export default function PokeTypeList({ PokeType }) {
     });
   }
 
-  function uniqueTypes(prev, arrIn) {
-    return [...new Set([...prev, ...arrIn])];
-  }
-  function mapITypeToName(iType) {
-    return iType.map((x) => x.name);
-  }
   useEffect(() => {
     if (PokeType === "") return;
     PokeType.forEach((uniqueType) => {
@@ -81,6 +83,7 @@ export default function PokeTypeList({ PokeType }) {
       });
     });
   }, [PokeType]);
+
   return (
     <div>
       <DamageRelation
