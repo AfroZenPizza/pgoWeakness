@@ -76,14 +76,24 @@ function App() {
     <>
       <Container fluid>
         <Row>
-          <Col md={4}>
+          <Col md={3}>
             <Stack direction="horizontal" gap={3}>
               <Form.Control ref={pokeRef} onKeyDown={handleAddKeyDown} className="me-auto" placeholder="Pikachu..." />
               <Button onClick={handleAddPoke}>Add</Button>
             </Stack>
           </Col>
+          <Col md={2}>
+            <Card>
+              <Card.Title>Basic Info
+              </Card.Title>
+              <Card.Text>
+                <strong>8:20 -</strong> time to get 50 coins in a gym<br />
+                <strong>Meta:</strong> Some pokemon will have attacks that don't match their types. They may be strong against their weakness. <em>beware</em>
+              </Card.Text>
+            </Card>
+          </Col>
           <GymBox />
-          <Col md={4}>
+          <Col md={3}>
             <Card>
               <Card.Title>New Features</Card.Title>
               <Card.Text><strong><kbd>Ctrl</kbd>+<kbd>Enter</kbd></strong> will remove all pokemon with a given name<br />
