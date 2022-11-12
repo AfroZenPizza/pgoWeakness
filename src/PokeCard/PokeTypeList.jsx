@@ -4,6 +4,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import iconStyle from "../icons/icons.module.css";
 import DamageRelation from "./DamageRelation";
 
+function resolveOpposingTypes(typeList1, typeList2) {
+  let sharedTypes = typeList1.filter((type) => {
+    return typeList2.includes(type);
+  });
+  typeList1 = typeList1.filter((type) => {
+    return !sharedTypes.includes(type);
+  });
+  typeList2 = typeList2.filter((type) => {
+    return !sharedTypes.includes(type);
+  });
+  return [typeList1, typeList2];
+}
+
+function removeDuplicateTypesFrom(typeList) {
+  return [...new Set(typeList)];
+}
+
 export default function PokeTypeList({ PokeType }) {
   const [doubleDamageTo, setDoubleDamageTo] = useState([]);
   const [doubleDamageFrom, setDoubleDamageFrom] = useState([]);
@@ -16,7 +33,7 @@ export default function PokeTypeList({ PokeType }) {
     return [...new Set([...prev, ...arrIn])];
   }
 
-  function mapITypeToName(iType) {
+  function getTypeNames(iType) {
     return iType.map((x) => x.name);
   }
 
@@ -32,55 +49,42 @@ export default function PokeTypeList({ PokeType }) {
 
   useEffect(() => {
     if (PokeType === "") return;
-    PokeType.forEach((uniqueType) => {
-      PokeAPI.Type.fetch(uniqueType).then((result) => {
+    let doubleDamageTo = [];
+    let doubleDamageFrom = [];
+    let halfDamageTo = [];
+    let halfDamageFrom = [];
+    PokeType.forEach(async (uniqueType) => {
+      await PokeAPI.Type.fetch(uniqueType).then((result) => {
         const { damage_relations } = result;
-        const newDoubleDamageFrom = [
-          ...new Set([
-            ...mapITypeToName(damage_relations.double_damage_from),
-            ...doubleDamageFrom,
-          ]),
-        ];
-        const newDoubleDamageTo = [
-          ...new Set([
-            ...mapITypeToName(damage_relations.double_damage_to),
-            ...doubleDamageTo,
-          ]),
-        ];
-        const newHalfDamageTo = [
-          ...new Set([
-            ...mapITypeToName(damage_relations.half_damage_to),
-            ...halfDamageTo,
-          ]),
-        ];
-        const newHalfDamageFrom = [
-          ...new Set([
-            ...mapITypeToName(damage_relations.half_damage_from),
-            ...halfDamageFrom,
-          ]),
-        ];
-        const newNoDamageFrom = mapITypeToName(damage_relations.no_damage_from);
-        const newNoDamageTo = mapITypeToName(damage_relations.no_damage_to);
-
-        setDoubleDamageFrom(
-          newDoubleDamageFrom.filter(
-            (item) => !newHalfDamageFrom.includes(item)
-          )
+        doubleDamageFrom = doubleDamageFrom.concat(
+          getTypeNames(damage_relations.double_damage_from)
         );
-        setDoubleDamageTo(
-          newDoubleDamageTo.filter((item) => !newHalfDamageTo.includes(item))
+        doubleDamageTo = doubleDamageTo.concat(
+          getTypeNames(damage_relations.double_damage_to)
         );
-        setHalfDamageFrom(
-          newHalfDamageFrom.filter(
-            (item) => !newDoubleDamageFrom.includes(item)
-          )
+        halfDamageFrom = halfDamageFrom.concat(
+          getTypeNames(damage_relations.half_damage_from)
         );
-        setHalfDamageTo(
-          newHalfDamageTo.filter((item) => !newDoubleDamageTo.includes(item))
+        halfDamageTo = halfDamageTo.concat(
+          getTypeNames(damage_relations.half_damage_to)
         );
-        setNoDamageFrom(newNoDamageFrom);
-        setNoDamageTo(newNoDamageTo);
       });
+      [doubleDamageFrom, halfDamageFrom] = resolveOpposingTypes(
+        doubleDamageFrom,
+        halfDamageFrom
+      );
+      [doubleDamageTo, halfDamageTo] = resolveOpposingTypes(
+        doubleDamageTo,
+        halfDamageTo
+      );
+      doubleDamageFrom = removeDuplicateTypesFrom(doubleDamageFrom);
+      doubleDamageTo = removeDuplicateTypesFrom(doubleDamageTo);
+      halfDamageFrom = removeDuplicateTypesFrom(halfDamageFrom);
+      halfDamageTo = removeDuplicateTypesFrom(halfDamageTo);
+      setDoubleDamageFrom(doubleDamageFrom);
+      setDoubleDamageTo(doubleDamageTo);
+      setHalfDamageFrom(halfDamageFrom);
+      setHalfDamageTo(halfDamageTo);
     });
   }, [PokeType]);
 

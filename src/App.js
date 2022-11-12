@@ -8,7 +8,8 @@ import Row from 'react-bootstrap/Row'
 import Stack from 'react-bootstrap/Stack'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Form } from 'react-bootstrap';
-import GymBox from './GymBox/GymBox.jsx'
+import GymBox from './GymBox/GymBox.jsx';
+import Navbar from './Navbar/Navbar';
 
 function App() {
   const LOCAL_STORAGE_KEY = "pgodex.local"
@@ -27,7 +28,7 @@ function App() {
   }, [pokemonList])
 
   function removePokemon(id) {
-    const newPokemonList = pokemonList.filter(item => item.id != id)
+    const newPokemonList = pokemonList.filter(item => item.id !== id)
     setPokemonList(newPokemonList);
   }
   function handleAddPoke(e) {
@@ -58,7 +59,7 @@ function App() {
       return;
     };
     setPokemonList(prevList => {
-      return prevList.filter(item => item.name.toLowerCase() != name.toLowerCase())
+      return prevList.filter(item => item.name.toLowerCase() !== name.toLowerCase())
     })
     pokeRef.current.value = null;
   }
@@ -74,15 +75,10 @@ function App() {
   }
   return (
     <>
+      <Navbar />
       <Container fluid>
         <Row>
           <Col md={3}>
-            <Stack direction="horizontal" gap={3}>
-              <Form.Control ref={pokeRef} onKeyDown={handleAddKeyDown} className="me-auto" placeholder="Pikachu..." />
-              <Button onClick={handleAddPoke}>Add</Button>
-            </Stack>
-          </Col>
-          <Col md={2}>
             <Card>
               <Card.Title>Basic Info
               </Card.Title>
@@ -100,6 +96,14 @@ function App() {
                 Comma seperating pokemon <em>Pikachu, Mew</em> will add each pokemon in the list.
               </Card.Text>
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={3}>
+            <Stack direction="horizontal" gap={3}>
+              <Form.Control ref={pokeRef} onKeyDown={handleAddKeyDown} className="me-auto" placeholder="Pikachu..." />
+              <Button onClick={handleAddPoke}>Add</Button>
+            </Stack>
           </Col>
         </Row>
       </Container>

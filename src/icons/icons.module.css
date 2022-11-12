@@ -6,7 +6,22 @@
   margin: 0;
   transition: 200ms all;
 }
-
+.cardHeader {
+  background-color: rgba(125, 125, 125, 0.5);
+}
+.loadingImage {
+  filter: saturate(5%);
+  animation: rotating 30s;
+  transition: 30s;
+}
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
 .icon:hover {
   filter: saturate(200%);
   transform: scale(1.1);
